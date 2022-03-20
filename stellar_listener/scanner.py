@@ -26,3 +26,4 @@ class SkyScanner:
             self.sense.show_letter(str(math.floor(separation.dms.d)), text_colour=[0, 0, 255])
         else:
             self.sense.clear()
+        return separation

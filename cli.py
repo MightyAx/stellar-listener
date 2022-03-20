@@ -30,8 +30,24 @@ if sonic.check_if_running() == 1:
         sonic.send_cmd('/run-code', Server.preamble.format(sonic.get_cmd_port()))
     inst.run(True, start())
 
-if sonic.check_if_running() == 0:
-    transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
-    scanner = SkyScanner(transformer)
-    while True:
-        scanner.scan()
+if sonic.check_if_running() != 0:
+    raise RuntimeError('Could not start Sonic Pi')
+
+start_file = ''
+change_file = ''
+with open('sounds/start.rb') as file:
+    start_file = file.read()
+if not start_file:
+    raise RuntimeError('Could not read starting sounds file')
+with open('sounds/change.rb') as file:
+    change_file = file.read()
+if not change_file:
+    raise RuntimeError('Could not read dynamic sounds file')
+
+sonic.run_code(start_file)
+transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
+scanner = SkyScanner(transformer)
+while True:
+    seperation = scanner.scan()
+    amp = seperation.dms.d / 180
+    sonic.run_code(change_file.format(vega=1-amp,white=amp))
