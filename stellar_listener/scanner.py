@@ -21,7 +21,6 @@ class SkyScanner:
         yaw = o['yaw']
         observation = self.transformer.get_sky_coord(pitch, yaw, time)
         separation = observation.separation(self.polaris)
-        print(separation)
         if separation.is_within_bounds(upper=Angle(9.9, unit='deg')):
             self.sense.show_letter(str(math.floor(separation.dms.d)), text_colour=[0, 0, 255])
         else:
