@@ -43,7 +43,6 @@ class StellarServer:
             raise RuntimeError('Could not read dynamic sounds file')
 
     def start_sound(self):
-        print(self.initial_sound)
         self.sonic.run_code(self.initial_sound)
     
     @limits(calls=1, period=1, raise_on_limit=False)
@@ -51,7 +50,6 @@ class StellarServer:
         self.last_seperation = seperation
         amp = seperation / 180
         updated_sound = self.change_sound.format(vega=1-amp,white=amp)
-        print(updated_sound)
         self.sonic.run_code(updated_sound)
     
     def __send_start(self):

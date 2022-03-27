@@ -1,4 +1,5 @@
 import argparse
+import math
 from stellar_listener.server import StellarServer
 
 parser = argparse.ArgumentParser(description='Use SenseHat to determine Right Ascension and Declination')
@@ -19,7 +20,9 @@ stellar.add_sounds('sounds/start.rb', 'sounds/change.rb')
 
 # ToDo: Monitor for key press
 # ToDo: push this while into StellarServer
+# ToDo: Wrap in a closing with stop
+stellar.start_sound()
 while True:
-    seperation = stellar.scanner.scan().dms.d
+    seperation = math.floor(stellar.scanner.scan().dms.d)
     if (seperation != stellar.last_seperation):
         stellar.update_sound(seperation)
