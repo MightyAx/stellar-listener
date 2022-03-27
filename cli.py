@@ -1,6 +1,9 @@
 import argparse
 import math
-from stellar_listener.server import StellarServer
+from sonic_pi.tool import Server as SonicServer
+from stellar_listener.transformer import OrientationTransformer
+from stellar_listener.observer import SenseHatObserver
+from stellar_listener.sound_maker import SoundMaker
 
 parser = argparse.ArgumentParser(description='Use SenseHat to determine Right Ascension and Declination')
 parser.add_argument('latitude', type=float, help='Latitude of observer')
@@ -13,16 +16,10 @@ parser.add_argument('--preamble', action='store_true', help="Send preamble to en
 parser.add_argument('--verbose', action='store_true', help="Print more information to help with debugging.")
 args = vars(parser.parse_args())
 
-stellar = StellarServer()
-stellar.start_sonic(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
-stellar.add_scanner(args['latitude'], args['longitude'], args['elevation'])
-stellar.add_sounds('sounds/start.rb', 'sounds/change.rb')
-
-# ToDo: Monitor for key press
-# ToDo: push this while into StellarServer
-# ToDo: Wrap in a closing with stop
-stellar.start_sound()
-while True:
-    seperation = math.floor(stellar.scanner.scan().dms.d)
-    if (seperation != stellar.last_seperation):
-        stellar.update_sound(seperation)
+sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
+transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
+observer = SenseHatObserver(transformer)
+sounder = SoundMaker(sonic, observer)
+sounder.make_sound()
+# ToDo: Factory Method Styling
+# ToDo: Play with seperation Mapping
