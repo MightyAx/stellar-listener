@@ -1,6 +1,7 @@
-from .base import BaseSoundCoord
+from .signal import BaseSignal
 
-class Vega(BaseSoundCoord):
+
+class Vega(BaseSignal):
     def __init__(self):
         super().__init__('vega', [0,0,255])
     

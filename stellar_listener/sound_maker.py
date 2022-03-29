@@ -35,7 +35,7 @@ class SoundMaker:
             observation = self.observer.make_observation()
             max_amp = self.observe_signals(observation)
             # ToDo: Pull the volume cap out into a config (1 amp on that whitenoise is too loud)
-            self.whitenoise.apply_amplitude(.75 - max_amp)
+            self.whitenoise.apply_amplitude(1 - max_amp)
             self.send_sounds([s.sound for s in self.sounds])
     
     def observe_signals(self, observation):

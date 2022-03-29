@@ -1,6 +1,7 @@
-from .base import BaseSoundCoord
+from .signal import BaseSignal
 
-class Polaris(BaseSoundCoord):
+
+class Polaris(BaseSignal):
     def __init__(self):
         super().__init__('polaris', [0,255,0])
     
