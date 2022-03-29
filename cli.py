@@ -1,5 +1,7 @@
 import argparse
 import math
+
+from sense_hat import SenseHat
 from sonic_pi.tool import Server as SonicServer
 from stellar_listener.transformer import OrientationTransformer
 from stellar_listener.observer import SenseHatObserver
@@ -16,10 +18,12 @@ parser.add_argument('--preamble', action='store_true', help="Send preamble to en
 parser.add_argument('--verbose', action='store_true', help="Print more information to help with debugging.")
 args = vars(parser.parse_args())
 
+sense = SenseHat()
+sense.set_rotation(90)
+
 sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
 transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
-observer = SenseHatObserver(transformer)
-sounder = SoundMaker(sonic, observer)
-sounder.make_sound()
-# ToDo: Factory Method Styling
-# ToDo: Play with seperation Mapping
+observer = SenseHatObserver(sense, transformer)
+
+with SoundMaker(sense, sonic, observer) as sounder:
+    sounder.make_sound()

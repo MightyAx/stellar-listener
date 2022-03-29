@@ -1,4 +1,3 @@
-# Start Vega v0.1
 define :vega_sound do
     sample :drum_bass_hard, amp: 0
 end

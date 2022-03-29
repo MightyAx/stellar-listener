@@ -3,7 +3,6 @@ import math
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 
-from sense_hat import SenseHat
 from astropy.coordinates import SkyCoord, ICRS
 
 class BaseSound(metaclass = ABCMeta):
@@ -35,11 +34,9 @@ class BaseSoundCoord(BaseSound):
         self.colour = colour
         self.seperation = None
     
-    def apply_observation(self, observation: ICRS, sense_hat: SenseHat):
+    def apply_observation(self, observation: ICRS):
         self.separation = math.floor(observation.separation(self.coord).dms.d)
         amplitute = self.map_seperation_to_amplitute(self.separation)
-        if (self.separation < 10):
-            sense_hat.show_letter(str(self.separation), text_colour=self.colour)
         super().apply_amplitude(amplitute)
     
     @abstractmethod
