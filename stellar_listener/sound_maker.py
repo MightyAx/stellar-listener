@@ -1,6 +1,5 @@
 from typing import List
 from pathlib import Path
-from ratelimit import limits
 from sense_hat import SenseHat
 
 from sonic_pi.tool import Server as SonicServer

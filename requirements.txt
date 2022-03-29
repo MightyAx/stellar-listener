@@ -3,4 +3,3 @@ astropy
 click
 oscpy
 psutil
-ratelimit
