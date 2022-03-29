@@ -13,9 +13,9 @@ class BaseSignal(BaseSound):
     
     def apply_observation(self, observation: ICRS):
         self.separation = math.floor(observation.separation(self.coord).dms.d)
-        amplitute = self.map_seperation_to_amplitute(self.separation)
-        super().apply_amplitude(amplitute)
+        amplitude = self.map_seperation_to_amplitude(self.separation)
+        super().apply_amplitude(amplitude)
     
     @abstractmethod
-    def map_seperation_to_amplitute(self, seperation: int):
+    def map_seperation_to_amplitude(self, seperation: int):
         pass
