@@ -5,6 +5,7 @@ from sense_hat import SenseHat
 from sonic_pi.tool import Server as SonicServer
 from .observer import SenseHatObserver
 from .transformer import OrientationTransformer
+from .sounds.signal import BaseSignal
 from .sounds.vega import Vega
 from .sounds.polaris import Polaris
 from .sounds.whitenoise import WhiteNoise
@@ -32,26 +33,21 @@ class SoundMaker:
         self.send_sounds([s.start for s in self.sounds])
         while True:
             observation = self.observer.make_observation()
-            max_amp = self.observe_signals(observation)
-            # ToDo: Pull the volume cap out into a config (1 amp on that whitenoise is too loud)
-            self.whitenoise.apply_amplitude(1 - max_amp)
+            self.observe_signals(observation)
+            self.whitenoise.apply_signal(self.signals[0])
+            self.show_display(self.signals[0])
             self.send_sounds([s.sound for s in self.sounds])
     
     def observe_signals(self, observation):
-        max_amp = 0
-        min_sep = 180
         for signal in self.signals:
             signal.apply_observation(observation)
-            # ToDo: Change this to choose one signal to highlight (prevent LED flicker)
-            if signal.amplitude > max_amp:
-                max_amp = signal.amplitude
-            if signal.separation < min_sep:
-                min_sep = signal.separation
-            if (signal.separation < 10):
-                self.sense.show_letter(str(signal.separation), text_colour=signal.colour)
-            if min_sep > 9:
-                self.sense.clear()
-        return max_amp
+        self.signals.sort(key=lambda signal: signal.separation)
+
+    def show_display(self, closest_signal: BaseSignal):
+        if closest_signal.separation < 10:
+            self.sense.show_letter(str(closest_signal.separation), text_colour=closest_signal.colour)
+        else:
+            self.sense.clear()
     
     def send_sounds(self, sounds: List[str]):
         code = '\r\n'.join(sounds)
