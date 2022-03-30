@@ -1,2 +1,5 @@
 sense-hat
 astropy
+click
+oscpy
+psutil
