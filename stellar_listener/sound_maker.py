@@ -44,6 +44,7 @@ class SoundMaker:
         self.signals.sort(key=lambda signal: signal.separation)
 
     def show_display(self, closest_signal: BaseSignal):
+        print(closest_signal.name + ', ' + str(closest_signal.separation))
         if closest_signal.separation < 10:
             self.sense.show_letter(str(closest_signal.separation), text_colour=closest_signal.colour)
         else:

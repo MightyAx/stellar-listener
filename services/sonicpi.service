@@ -1,0 +1,14 @@
+[Unit]
+Description=sonicpi
+After=sound.target
+
+[Service]
+User=your_user
+Type=forking
+LimitRTPRIO=infinity
+LimitMEMLOCK=infinity
+Environment="JACK_NO_AUDIO_RESERVATION=1"
+ExecStart=/home/your_user/stellar-listener/sonic_pi/tool.py start-server --background
+
+[Install]
+WantedBy=multi-user.target

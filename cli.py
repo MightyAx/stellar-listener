@@ -1,5 +1,6 @@
 import argparse
 import math
+import time
 
 from sense_hat import SenseHat
 from sonic_pi.tool import Server as SonicServer
@@ -20,6 +21,12 @@ args = vars(parser.parse_args())
 
 sense = SenseHat()
 sense.set_rotation(90)
+i = 9
+while i > 0:
+    sense.show_letter(str(i), text_colour=[255,0,0])
+    i = i - 1
+    time.sleep(1)
+sense.clear()
 
 sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
 transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])

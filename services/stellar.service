@@ -1,0 +1,10 @@
+[Unit]
+Description=stellar
+After=sonicpi.service
+
+[Service]
+User=your_user
+ExecStart=python3 /home/your_user/stellar-listener/cli.py lat long alt
+
+[Install]
+WantedBy=multi-user.target
