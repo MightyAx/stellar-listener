@@ -13,13 +13,8 @@ class OrientationTransformer:
     def get_sky_coord(self, pitch: float, yaw: float, time: Time = None):
         if not time:
             time = Time.now()
-        alt = Angle(self.get_altitude(pitch), unit='deg')
+        alt = Angle(pitch, unit='deg')
         az = Angle(yaw, unit='deg')
         local_observation = AltAz(az=az, alt=alt, obstime=time, location=self.location)
         return local_observation.transform_to(ICRS())
 
-    @staticmethod
-    def get_altitude(pitch: float) -> float:
-        if pitch > 180:
-            return -1 * (360 - pitch)
-        return pitch
