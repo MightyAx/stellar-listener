@@ -6,6 +6,7 @@ from sense_hat import SenseHat
 from sonic_pi.tool import Server as SonicServer
 from stellar_listener.transformer import OrientationTransformer
 from stellar_listener.observer import SenseHatObserver
+from stellar_listener.joystick import JoystickHandler
 from stellar_listener.sound_maker import SoundMaker
 from stellar_listener.images.colours import Red
 
@@ -40,6 +41,7 @@ sense.clear()
 sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
 transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
 observer = SenseHatObserver(sense, transformer, args['rotation'])
+joystick = JoystickHandler(sense, args['rotation'])
 
-with SoundMaker(sense, sonic, observer) as sounder:
+with SoundMaker(sense, sonic, observer, joystick) as sounder:
     sounder.make_sound()
