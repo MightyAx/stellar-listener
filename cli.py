@@ -7,6 +7,7 @@ from sonic_pi.tool import Server as SonicServer
 from stellar_listener.transformer import OrientationTransformer
 from stellar_listener.observer import SenseHatObserver
 from stellar_listener.sound_maker import SoundMaker
+from stellar_listener.images.colours import Red
 
 parser = argparse.ArgumentParser(description='Use SenseHat to determine Right Ascension and Declination')
 parser.add_argument('latitude', type=float, help='Latitude of observer')
@@ -26,7 +27,7 @@ sense.set_rotation(args['rotation'])
 if (not args['fast_boot']):
     i = 9
     while i > 0:
-        sense.show_letter(str(i), text_colour=[255,0,0])
+        sense.show_letter(str(i), text_colour=Red)
         i = i - 1
         time.sleep(1)
 sense.clear()
