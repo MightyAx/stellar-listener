@@ -30,10 +30,13 @@ sense.set_rotation(args['rotation'])
 if (not args['bright']):
     sense.low_light = True
 
+joystick = JoystickHandler(sense)
+
 if (not args['fast_boot']):
     i = 9
     while i > 0:
-        sense.show_letter(str(i), text_colour=Red)
+        if not joystick.handle_events():
+            sense.show_letter(str(i), text_colour=Red)
         i = i - 1
         time.sleep(1)
 sense.clear()
@@ -41,7 +44,6 @@ sense.clear()
 sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
 transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
 observer = SenseHatObserver(sense, transformer, args['rotation'])
-joystick = JoystickHandler(sense)
 
 with SoundMaker(sense, sonic, observer, joystick) as sounder:
     sounder.make_sound()
