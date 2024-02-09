@@ -13,6 +13,8 @@ class BulbOff(BaseImage):
             O, O, O, X, X, O, O, O
             ], red=True, green=True, blue=True)
 
+bulb_off = BulbOff()
+
 class BulbOn(BaseImage):
     def __init__(self):
         super().__init__([
@@ -25,3 +27,5 @@ class BulbOn(BaseImage):
             O, O, O, X, X, O, O, O,
             O, O, O, X, X, O, O, O
             ], red=True, green=True, blue=True)
+
+bulb_on = BulbOn()

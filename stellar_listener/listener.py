@@ -10,10 +10,8 @@ from .output.sounds.signal import BaseSignal
 from .output.sounds.vega import Vega
 from .output.sounds.polaris import Polaris
 from .output.sounds.whitenoise import WhiteNoise
-from .output.images.bulb import BulbOn, BulbOff
-
-bulb_on = BulbOn()
-bulb_off = BulbOff()
+from .output.images.bulb import bulb_off, bulb_on
+from .output.images.speaker import speaker_down, speaker_up
 
 class Listener:
     def __init__(self, display: Display, audio: Audio, gyroscope: Gyroscope, joystick: Joystick):
@@ -71,6 +69,8 @@ class Listener:
 
     def button_left(self):
         self.audio.volume_down()
+        self.display.image(speaker_down)
 
     def button_right(self):
         self.audio.volume_up()
+        self.display.image(speaker_up)
