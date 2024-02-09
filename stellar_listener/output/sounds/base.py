@@ -9,11 +9,13 @@ class BaseSound(metaclass = ABCMeta):
         self.start = self.__read_file(f'start/{name}.rb')
         self.__update = self.__read_file(f'update/{name}.rb')
         self.amplitude = None
+        self.volume = 0.5
         self.sound = None
         
     def apply_amplitude(self, amplitude):
         self.amplitude = amplitude
-        self.sound = self.__update.format(amp=amplitude)
+        combined = amplitude * self.volume
+        self.sound = self.__update.format(amp=combined)
 
     @staticmethod
     def __read_file(file_name: str):

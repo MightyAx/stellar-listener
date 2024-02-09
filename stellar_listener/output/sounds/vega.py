@@ -1,9 +1,8 @@
 from .signal import BaseSignal
 
-
 class Vega(BaseSignal):
     def __init__(self):
-        super().__init__('vega', [0,0,255])
+        super().__init__('vega', green=True)
     
     def map_seperation_to_amplitude(self, seperation: int):
         if seperation < 50:

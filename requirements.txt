@@ -1,4 +1,5 @@
 sense-hat
+python-rtimulib
 astropy
 click
 oscpy

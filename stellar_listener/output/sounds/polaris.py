@@ -1,9 +1,8 @@
 from .signal import BaseSignal
 
-
 class Polaris(BaseSignal):
     def __init__(self):
-        super().__init__('polaris', [0,255,0])
+        super().__init__('polaris', blue=True)
     
     def map_seperation_to_amplitude(self, seperation: int):
         if seperation < 50:
