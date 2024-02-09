@@ -59,4 +59,3 @@ class Audio():
     @staticmethod
     def __apply_volume(sound: BaseSound, volume: float):
         sound.volume = volume
-

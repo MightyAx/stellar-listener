@@ -18,7 +18,7 @@ class Display():
 
     @brightness.setter
     def brightness(self, brightness: int):
-        if brightness > 0 and brightness < 256:
+        if brightness >= self.__min and brightness <= self.__max:
             print('Brightness set to: ' + str(brightness))
             self.__brightness = brightness
         else:
@@ -37,7 +37,7 @@ class Display():
         self.brightness = new_brightness
     
     def letter(self, letter: str, red: bool = False, green: bool = False, blue: bool = False):
-        self.sense.show_letter(letter, text_colour=[self.brightness if red else 0, self.brightness if green else 0, self.brightness if blue else 0])
+        self.sense.show_letter(letter, text_colour=[self.brightness if red else self.__off, self.brightness if green else self.__off, self.brightness if blue else self.__off])
 
     def image(self, image: BaseImage):
         self.sense.set_pixels(image.output_at_brightness(self.brightness))
