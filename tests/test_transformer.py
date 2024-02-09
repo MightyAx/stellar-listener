@@ -4,7 +4,7 @@ import unittest
 from astropy.coordinates import Angle, AltAz, SkyCoord
 from astropy.time import Time
 
-from stellar_listener.transformer import OrientationTransformer
+from stellar_listener.input.transformer import OrientationTransformer
 
 
 class TestOrientationTransformer(unittest.TestCase):
