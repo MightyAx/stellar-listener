@@ -35,8 +35,7 @@ joystick = Joystick(sense)
 if (not args['fast_boot']):
     i = 9
     while i > 0:
-        if not joystick.handle_events():
-            display.letter(str(i), red=True)
+        display.letter(str(i), red=True)
         i = i - 1
         time.sleep(1)
 display.clear()
