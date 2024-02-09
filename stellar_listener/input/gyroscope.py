@@ -3,7 +3,7 @@ from astropy.time import Time
 from .transformer import OrientationTransformer
 
 
-class SenseHatObserver:
+class Gyroscope:
     def __init__(self, sense: SenseHat, transformer: OrientationTransformer):
         self.sense = sense
         self.transformer = transformer

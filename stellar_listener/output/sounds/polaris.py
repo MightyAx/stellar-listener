@@ -1,9 +1,8 @@
 from .signal import BaseSignal
-from stellar_listener.images.colours import Blue
 
-class Vega(BaseSignal):
+class Polaris(BaseSignal):
     def __init__(self):
-        super().__init__('vega', Blue)
+        super().__init__('polaris', green=True)
     
     def map_seperation_to_amplitude(self, seperation: int):
         if seperation < 50:

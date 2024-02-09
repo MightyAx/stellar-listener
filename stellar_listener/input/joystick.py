@@ -1,5 +1,4 @@
 from sense_hat import SenseHat, InputEvent, ACTION_RELEASED
-from .images.bulb import BULB_ON, BULB_OFF
 
 up = 'up'
 down = 'down'
@@ -7,9 +6,14 @@ left = 'left'
 right = 'right'
 middle = 'middle'
 
-class JoystickHandler():
+class Joystick():
     def __init__(self, sense: SenseHat):
         self.sense = sense
+        self.callback_up = self.up
+        self.callback_down = self.down
+        self.callback_left = self.left
+        self.callback_right = self.right
+        self.callback_middle = self.middle
     
     def handle_events(self):
         """
@@ -26,17 +30,35 @@ class JoystickHandler():
     
     def hande_direction(self, direction: str):
         if direction == up:
-            print('Brightness Up')
-            self.sense.set_pixels(BULB_ON)
+            self.callback_up()
         elif direction == down:
-            print('Brightness Down')
-            self.sense.set_pixels(BULB_OFF)
+            self.callback_down()
         elif direction == left:
-            print('Volume Down')
+            self.callback_left()
         elif direction == right:
-            print('Volume Up')
+            self.callback_right()
         elif direction == middle:
-            print('Toggle Padlock')
+            self.callback_middle()
+    
+    @staticmethod
+    def up():
+        print('Up')
+
+    @staticmethod
+    def down():
+        print('Down')
+
+    @staticmethod
+    def left():
+        print('Left')
+
+    @staticmethod
+    def right():
+        print('Right')
+
+    @staticmethod
+    def middle():
+        print('Middle')
     
     @staticmethod
     def get_rotated_direction(rotation: int, direction: str):

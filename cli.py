@@ -4,11 +4,12 @@ import time
 
 from sense_hat import SenseHat
 from sonic_pi.tool import Server as SonicServer
-from stellar_listener.transformer import OrientationTransformer
-from stellar_listener.observer import SenseHatObserver
-from stellar_listener.joystick import JoystickHandler
-from stellar_listener.sound_maker import SoundMaker
-from stellar_listener.images.colours import Red
+from stellar_listener.output.display import Display
+from stellar_listener.output.audio import Audio
+from stellar_listener.input.gyroscope import Gyroscope
+from stellar_listener.input.transformer import OrientationTransformer
+from stellar_listener.input.joystick import Joystick
+from stellar_listener.listener import Listener
 
 parser = argparse.ArgumentParser(description='Use SenseHat to determine Right Ascension and Declination')
 parser.add_argument('latitude', type=float, help='Latitude of observer')
@@ -26,24 +27,21 @@ parser.add_argument('--verbose', action='store_true', help="Print more informati
 args = vars(parser.parse_args())
 
 sense = SenseHat()
-sense.set_rotation(args['rotation'])
-if (not args['bright']):
-    sense.low_light = True
 
-joystick = JoystickHandler(sense)
+display = Display(sense, args['rotation'], not args['bright'])
+gyroscope = Gyroscope(sense, OrientationTransformer(args['latitude'], args['longitude'], args['elevation']))
+joystick = Joystick(sense)
 
 if (not args['fast_boot']):
     i = 9
     while i > 0:
         if not joystick.handle_events():
-            sense.show_letter(str(i), text_colour=Red)
+            display.letter(str(i), red=True)
         i = i - 1
         time.sleep(1)
-sense.clear()
+display.clear()
 
-sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
-transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
-observer = SenseHatObserver(sense, transformer)
+audio = Audio(SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose']))
 
-with SoundMaker(sense, sonic, observer, joystick) as sounder:
-    sounder.make_sound()
+with Listener(display, audio, gyroscope, joystick) as listener:
+    listener.listen()

@@ -5,10 +5,12 @@ from .base import BaseSound
 
 
 class BaseSignal(BaseSound):
-    def __init__(self, name, colour, astropy_name = None):
+    def __init__(self, name, red: bool = False, green: bool = False, blue: bool = False, astropy_name = None):
         super().__init__(name)
         self.coord = SkyCoord.from_name(astropy_name if astropy_name else name)
-        self.colour = colour
+        self.red = red
+        self.green = green
+        self.blue = blue
         self.seperation = None
     
     def apply_observation(self, observation: ICRS):
