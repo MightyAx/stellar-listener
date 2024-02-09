@@ -43,7 +43,7 @@ sense.clear()
 
 sonic = SonicServer(args['host'], args['cmd_port'], args['osc_port'], args['preamble'], args['verbose'])
 transformer = OrientationTransformer(args['latitude'], args['longitude'], args['elevation'])
-observer = SenseHatObserver(sense, transformer, args['rotation'])
+observer = SenseHatObserver(sense, transformer)
 
 with SoundMaker(sense, sonic, observer, joystick) as sounder:
     sounder.make_sound()
