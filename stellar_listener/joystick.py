@@ -8,16 +8,20 @@ right = 'right'
 middle = 'middle'
 
 class JoystickHandler():
-    def __init__(self, sense: SenseHat, screen_rotation: int):
+    def __init__(self, sense: SenseHat):
         self.sense = sense
-        self.rotation = screen_rotation
     
-    def handle_joystick_events(self):
+    def handle_events(self):
+        """
+        Handles all joystick events that occured since the last call
+        returns true if there were any events to handle
+        """
+
         joystick_used = False
         for event in self.sense.stick.get_events():
             if event.action != ACTION_RELEASED:
                 joystick_used = True
-                self.hande_direction(self.get_rotated_direction(self.rotation, event.direction))
+                self.hande_direction(self.get_rotated_direction(self.sense.rotation, event.direction))
         return joystick_used
     
     def hande_direction(self, direction: str):

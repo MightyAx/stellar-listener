@@ -39,7 +39,7 @@ class SoundMaker:
             self.whitenoise.apply_signal(self.signals[0])
             self.send_sounds([s.sound for s in self.sounds])
             print(self.signals[0].name + ', ' + str(self.signals[0].separation))
-            if not self.joystick.handle_joystick_events():
+            if not self.joystick.handle_events():
                 self.show_display(self.signals[0])
     
     def observe_signals(self, observation):
